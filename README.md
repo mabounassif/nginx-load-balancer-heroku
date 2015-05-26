@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mabounassif/nginx-load-balancer-heroku.svg)](https://travis-ci.org/mabounassif/nginx-load-balancer-heroku)
+
 nginx-load-balancer-heroku
 ---
 
