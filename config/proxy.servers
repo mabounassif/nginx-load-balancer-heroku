@@ -1,0 +1,6 @@
+upstream app {
+  server localhost:4566 weight=3;
+  server localhost:4567 weight=1;
+  server localhost:4568 weight=1;
+  server localhost:4569 weight=1;
+}
