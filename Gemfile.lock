@@ -36,7 +36,7 @@ GEM
     erubis (2.7.0)
     hike (1.2.3)
     i18n (0.7.0)
-    json (1.8.2)
+    json (1.8.6)
     kgio (2.9.3)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
@@ -107,3 +107,9 @@ DEPENDENCIES
   rails (= 4.1.6)
   rspec-rails
   unicorn
+
+RUBY VERSION
+   ruby 2.4.10p364
+
+BUNDLED WITH
+   1.17.3
