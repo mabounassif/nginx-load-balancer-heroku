@@ -1,5 +1,5 @@
 daemon off;
-#Heroku dynos have at least 4 cores.
+# Heroku dynos have at least 4 cores.
 worker_processes <%= ENV['NGINX_WORKERS'] || 4 %>;
 
 events {
@@ -23,10 +23,71 @@ http {
   default_type application/octet-stream;
   sendfile on;
 
-  #Must read the body in 5 seconds.
+  # Must read the body in 5 seconds.
   client_body_timeout 5;
 
-  include proxy.servers;
+  <% if ENV['SERVER_01'] %>
+  server {
+    listen      8001 default_server;
+    server_name <%= ENV['SERVER_01'] %>;
+    location / {
+      proxy_pass       http://<%= ENV['SERVER_01'] %>;
+      proxy_set_header Host <%= ENV['SERVER_01'] %>;
+    }
+  }
+  <% end %>
+
+  <% if ENV['SERVER_02'] %>
+  server {
+    listen      8002 default_server;
+    server_name <%= ENV['SERVER_02'] %>;
+    location / {
+      proxy_pass       http://<%= ENV['SERVER_02'] %>;
+      proxy_set_header Host <%= ENV['SERVER_02'] %>;
+    }
+  }
+  <% end %>
+
+  <% if ENV['SERVER_03'] %>
+  server {
+    listen      8003 default_server;
+    server_name <%= ENV['SERVER_03'] %>;
+    location / {
+      proxy_pass       http://<%= ENV['SERVER_03'] %>;
+      proxy_set_header Host <%= ENV['SERVER_03'] %>;
+    }
+  }
+  <% end %>
+
+  <% if ENV['SERVER_04'] %>
+  server {
+    listen      8004 default_server;
+    server_name <%= ENV['SERVER_04'] %>;
+    location / {
+      proxy_pass       http://<%= ENV['SERVER_04'] %>;
+      proxy_set_header Host <%= ENV['SERVER_04'] %>;
+    }
+  }
+  <% end %>
+
+  <% if ENV['SERVER_05'] %>
+  server {
+    listen      8005 default_server;
+    server_name <%= ENV['SERVER_05'] %>;
+    location / {
+      proxy_pass       http://<%= ENV['SERVER_05'] %>;
+      proxy_set_header Host <%= ENV['SERVER_05'] %>;
+    }
+  }
+  <% end %>
+
+  upstream main {
+    <% if ENV['SERVER_01'] %>server 127.0.0.1:8001 weight=<%= ENV['WEIGHT_01'] || 1 %>;<% end %>
+    <% if ENV['SERVER_02'] %>server 127.0.0.1:8002 weight=<%= ENV['WEIGHT_02'] || 1 %>;<% end %>
+    <% if ENV['SERVER_03'] %>server 127.0.0.1:8003 weight=<%= ENV['WEIGHT_03'] || 1 %>;<% end %>
+    <% if ENV['SERVER_04'] %>server 127.0.0.1:8004 weight=<%= ENV['WEIGHT_04'] || 1 %>;<% end %>
+    <% if ENV['SERVER_05'] %>server 127.0.0.1:8005 weight=<%= ENV['WEIGHT_05'] || 1 %>;<% end %>
+  }
 
   server {
     listen <%= ENV['PORT'] %>;
@@ -34,8 +95,7 @@ http {
     keepalive_timeout 5;
 
     location / {
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_pass http://prod-volt;
+      proxy_pass http://main;
     }
   }
 }
