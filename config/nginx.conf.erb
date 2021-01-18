@@ -33,6 +33,7 @@ http {
     server {
       listen      800<%= index %> default_server;
       server_name <%= ENV["SERVER_#{index}"] %>;
+      client_max_body_size 20m;
       location / {
         proxy_pass       http://<%= ENV["SERVER_#{index}"] %>;
         proxy_set_header Host <%= ENV["SERVER_#{index}"] %>;
