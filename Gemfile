@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.4.10'
+ruby '2.5.9'
 
 gem 'rails', '4.1.6'
 gem 'unicorn'
@@ -12,5 +12,3 @@ end
 group :development do
   gem 'dotenv-rails'
 end
-
-
